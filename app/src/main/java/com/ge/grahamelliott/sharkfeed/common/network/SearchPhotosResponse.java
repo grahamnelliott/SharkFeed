@@ -6,6 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
+ * Search photo object for Retrofit to parse JSON response to.
+ *
  * @author graham.elliott
  */
 public class SearchPhotosResponse {

@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import com.ge.grahamelliott.sharkfeed.common.models.Photo;
 
 /**
+ * Helper to get valid image Uris.
+ *
  * @author graham.elliott
  */
 public class PhotoUriHelper {

@@ -11,8 +11,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Photo {
 
-    // TODO: add PhotoDetails as member variable (Consider Room)
-
     private String id;
 
     private String owner;

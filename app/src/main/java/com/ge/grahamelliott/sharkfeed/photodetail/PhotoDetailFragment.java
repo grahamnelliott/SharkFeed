@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
@@ -55,10 +56,8 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
     @BindView(R.id.txt_title)
     TextView titleView;
 
-    @BindView(R.id.txt_description)
-    TextView descriptionView;
-
-//    @BindView(R.id.)
+    @BindView(R.id.txt_views)
+    TextView viewCountView;
 
     private Unbinder unbinder;
 
@@ -70,9 +69,8 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             fragment.setSharedElementEnterTransition(new DetailsTransition());
-            fragment.setSharedElementReturnTransition(new DetailsTransition());
+            fragment.setSharedElementReturnTransition(new Fade());
             fragment.setEnterTransition(new Fade());
-            fragment.setExitTransition(new Fade());
         }
 
         return fragment;
@@ -94,7 +92,7 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
 
         int photoPosition = getArguments().getInt("photo");
         presenter.bindView(this, photoPosition);
-        ViewCompat.setTransitionName(imageView, String.format("detail%s", photoPosition));
+        ViewCompat.setTransitionName(imageView, "detail");
 
         return layout;
     }
@@ -141,11 +139,6 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
     }
 
     @Override
-    public void setTitleText(String title) {
-        titleView.setText(title);
-    }
-
-    @Override
     public void saveImageFromUri(Uri uri) {
         SimpleTarget<Bitmap> bitTarget = new SimpleTarget<Bitmap>() {
             @Override
@@ -173,8 +166,20 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
     }
 
     @Override
-    public void updateImageAttributes(String title, String description, String views) {
+    public void updateImageAttributes(String title, String views) {
+        if (isAdded()) {
+            checkAndSetValidText(title, titleView);
+            checkAndSetValidText(views, viewCountView);
+        }
+    }
 
+    private void checkAndSetValidText(String text, TextView view) {
+        if (TextUtils.isEmpty(text)) {
+            view.setVisibility(View.GONE);
+        } else {
+            view.setVisibility(View.VISIBLE);
+            view.setText(text);
+        }
     }
 
     @Override
@@ -184,12 +189,14 @@ public class PhotoDetailFragment extends Fragment implements PhotoDetailView {
     }
 
     private void showToastWithText(String text) {
-        Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        if (isAdded()) {
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    @TargetApi(21)
-    static class DetailsTransition extends TransitionSet {
-        DetailsTransition() {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static class DetailsTransition extends TransitionSet {
+        public DetailsTransition() {
             setOrdering(ORDERING_TOGETHER);
             addTransition(new ChangeBounds()).addTransition(new ChangeTransform())
                                              .addTransition(new ChangeImageTransform());

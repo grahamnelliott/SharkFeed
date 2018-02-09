@@ -1,6 +1,7 @@
 package com.ge.grahamelliott.sharkfeed.photolist;
 
-import android.content.Context;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,7 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,6 @@ public class PhotoListFragment extends Fragment implements PhotoListView {
         photoRecycler.setLayoutManager(layoutManager);
         photoRecycler.setAdapter(adapter);
         photoRecycler.setHasFixedSize(true);
-        // TODO: check memory usage
         photoRecycler.setItemViewCacheSize(50);
         photoRecycler.setDrawingCacheEnabled(true);
         photoRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_AUTO);
@@ -90,7 +90,7 @@ public class PhotoListFragment extends Fragment implements PhotoListView {
                 int visibleItems = gm.getChildCount();
                 int totalItems = gm.getItemCount();
 
-                presenter.onScrolled(firstItem, visibleItems, totalItems);
+                presenter.updateIfAtEndOfScroll(firstItem, visibleItems, totalItems);
             }
         });
 
@@ -106,33 +106,43 @@ public class PhotoListFragment extends Fragment implements PhotoListView {
 
     @Override
     public void notifyNewPhotosAdded(int newElementCount, int totalElementCount) {
-        adapter.notifyItemRangeInserted(totalElementCount - newElementCount, newElementCount);
+        if (isAdded()) {
+            adapter.notifyItemRangeInserted(totalElementCount - newElementCount, newElementCount);
+        }
     }
 
     @Override
     public void notifyRefreshComplete() {
-        // TODO: isAdded check or remove callback from presenter
-        swipeRefreshLayout.setRefreshing(false);
+        if (isAdded()) {
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     @Override
     public void notifyAllPhotosRefreshed() {
-        adapter.notifyDataSetChanged();
+        if (isAdded()) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void launchPhotoDetailFragment(int position) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setExitTransition(new Fade());
+        }
         getActivity().getSupportFragmentManager().beginTransaction()
                      .replace(R.id.container, PhotoDetailFragment.newInstance(position),
                               PhotoDetailFragment.TAG)
                      .addToBackStack(PhotoDetailFragment.TAG)
-                     .addSharedElement(photoRecycler.getLayoutManager().findViewByPosition(position),
-                                       String.format("detail%s", position))
+                     .addSharedElement(photoRecycler.getLayoutManager().findViewByPosition(position)
+                                                    .findViewById(R.id.img_photo), "detail")
                      .commit();
     }
 
     @Override
     public void showFailedLoadToast() {
-        Toast.makeText(getContext(), "Failed to load pictures", Toast.LENGTH_SHORT).show();
+        if (isAdded()) {
+            Toast.makeText(getContext(), "Failed to load pictures", Toast.LENGTH_SHORT).show();
+        }
     }
 }

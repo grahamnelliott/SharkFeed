@@ -1,12 +1,10 @@
 package com.ge.grahamelliott.sharkfeed.common.activities;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 
-import com.bumptech.glide.Glide;
 import com.ge.grahamelliott.sharkfeed.R;
 import com.ge.grahamelliott.sharkfeed.photolist.PhotoListFragment;
 
@@ -22,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
             // only create new fragment if no fragments present (they will be retained across config changes)
             fragmentManager.beginTransaction().replace(R.id.container, PhotoListFragment.newInstance()).commit();
         }
-
-        //TODO: init views, restore saved state
     }
 
     @Override

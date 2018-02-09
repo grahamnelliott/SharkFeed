@@ -54,7 +54,7 @@ public class PhotoDetailPresenter extends BaseMvpPresenter<PhotoDetailView> impl
         if (fullSizeUri != null) {
             view.loadImageFromUri(thumbnailUri, fullSizeUri);
         }
-        view.setTitleText(photo.getTitle());
+        view.updateImageAttributes(photo.getTitle(), null);
     }
 
     void downloadImageToDevice() {
@@ -87,7 +87,7 @@ public class PhotoDetailPresenter extends BaseMvpPresenter<PhotoDetailView> impl
     public void onPhotoDetailsLoaded() {
         details = photosDataSource.getPhotoDetailsWithId(photo.getId());
         if (details != null) {
-            view.updateImageAttributes(details.getTitle(), details.getDescription(), details.getViews());
+            view.updateImageAttributes(details.getTitle(), details.getViews());
         }
     }
 

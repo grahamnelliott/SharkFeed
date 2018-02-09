@@ -1,6 +1,5 @@
 package com.ge.grahamelliott.sharkfeed.photolist;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -70,10 +69,6 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<PhotoRecyclerAdap
             }
         };
 
-        // TODO: use view target, not simple target
-//        ViewTarget<ImageView, Bitmap> viewTarget
-
-        @TargetApi(21)
         public PhotoViewHolder(final View itemView, final PhotoClickListener listener) {
             super(itemView);
             photoView = itemView.findViewById(R.id.img_photo);
@@ -87,8 +82,7 @@ public class PhotoRecyclerAdapter extends RecyclerView.Adapter<PhotoRecyclerAdap
 
         @Override
         public void setImageFromUri(Uri uri) {
-            ViewCompat.setTransitionName(itemView, uri.toString());
-            // TODO: add placeholder -> loading wheel
+            ViewCompat.setTransitionName(photoView, uri.toString());
             Glide.with(itemView.getContext())
                  .asBitmap()
                  .load(uri)

@@ -1,5 +1,7 @@
 package com.ge.grahamelliott.sharkfeed.photolist;
 
+import android.net.Uri;
+
 import com.ge.grahamelliott.sharkfeed.common.data.PhotosDataSource;
 import com.ge.grahamelliott.sharkfeed.common.helpers.PhotoUriHelper;
 import com.ge.grahamelliott.sharkfeed.common.models.Photo;
@@ -39,14 +41,17 @@ public class PhotoListPresenter extends BaseMvpPresenter<PhotoListView> implemen
             return;
         }
 
-        itemView.setImageFromUri(PhotoUriHelper.getSmallestPhotoUri(photo));
+        Uri uri = PhotoUriHelper.getSmallestPhotoUri(photo);
+        if (uri != null) {
+            itemView.setImageFromUri(uri);
+        }
     }
 
     public int getPhotoViewCount() {
         return photosDataSource.getNumberOfPhotos();
     }
 
-    public void onScrolled(int firstItem, int visibleItems, int totalItems) {
+    public void updateIfAtEndOfScroll(int firstItem, int visibleItems, int totalItems) {
         if (visibleItems + firstItem >= totalItems && firstItem >= 0 && totalItems >= photosDataSource.getPageSize()) {
             updatePhotos();
         }
@@ -64,6 +69,10 @@ public class PhotoListPresenter extends BaseMvpPresenter<PhotoListView> implemen
     @Override
     public void onPhotosLoaded(int newCount, int totalCount) {
         view.notifyRefreshComplete();
+        if (totalCount == 0) {
+            return;
+        }
+
         if (newCount == totalCount) {
             view.notifyAllPhotosRefreshed();
         } else {
@@ -72,7 +81,7 @@ public class PhotoListPresenter extends BaseMvpPresenter<PhotoListView> implemen
     }
 
     @Override
-    public void onFailure() {
+    public void onPhotoLoadFailure() {
         view.notifyRefreshComplete();
         view.showFailedLoadToast();
     }

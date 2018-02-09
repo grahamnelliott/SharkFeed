@@ -15,6 +15,8 @@ import java.lang.ref.WeakReference;
 import javax.inject.Inject;
 
 /**
+ * Store images to external memory, if possible. Register with {@link SaveFileListener} weak reference to get callback.
+ *
  * @author graham.elliott
  */
 public class FileCachingManager {
@@ -24,6 +26,8 @@ public class FileCachingManager {
     private static final String PICTURES_DIRECTORY = "shark_feed";
 
     private static final String SHARK_FILE_PREFIX = "shark-";
+
+    private static final String SHARK_FILE_SUFFIX = ".jpg";
 
     private Context context;
 
@@ -42,7 +46,7 @@ public class FileCachingManager {
         }
 
         File rootFile = getAlbumStorageDirectory(PICTURES_DIRECTORY);
-        File imgFile = new File(rootFile, SHARK_FILE_PREFIX + filename + ".jpg");
+        File imgFile = new File(rootFile, SHARK_FILE_PREFIX + filename + SHARK_FILE_SUFFIX);
         if (imgFile.exists()) {
             imgFile.delete();
         }
