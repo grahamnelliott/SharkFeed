@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 /**
+ * Service to make network calls using {@link FlickrApi}.
+ *
  * @author graham.elliott
  */
 @Singleton

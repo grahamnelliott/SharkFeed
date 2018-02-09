@@ -22,6 +22,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
+ * DI module for API related classes.
+ *
  * @author graham.elliott
  */
 @Module

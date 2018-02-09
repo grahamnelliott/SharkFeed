@@ -8,6 +8,8 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 /**
+ * Flickr endpoints for Retrofit.
+ *
  * @author graham.elliott
  */
 public interface FlickrApi {

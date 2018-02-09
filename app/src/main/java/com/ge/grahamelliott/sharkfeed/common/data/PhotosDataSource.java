@@ -25,6 +25,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * Maintains cache of Photos and Photo details, will make network requests when necessary via {@link FlickrService}.
+ * Register for callbacks with {@link PhotoDetailListener} and {@link PhotoDataListener} for details and photos,
+ * respectively.
+ *
  * @author graham.elliott
  */
 @Singleton
@@ -40,7 +44,6 @@ public class PhotosDataSource {
 
     private int currentPage;
 
-    // TODO: check thread
     private boolean isLoadingPhotos;
 
     @Inject
@@ -114,7 +117,7 @@ public class PhotosDataSource {
                     Log.w(TAG, String.format("Failed to load images, error code: %s -> %s", response.code(), response
                             .message()));
                     if (weakListener.get() != null) {
-                        weakListener.get().onFailure();
+                        weakListener.get().onPhotoLoadFailure();
                     }
                 }
             }
@@ -124,7 +127,7 @@ public class PhotosDataSource {
                 isLoadingPhotos = false;
                 Log.e(TAG, String.format("Failed to load images: %s", t.getLocalizedMessage()));
                 if (weakListener.get() != null) {
-                    weakListener.get().onFailure();
+                    weakListener.get().onPhotoLoadFailure();
                 }
             }
         });
@@ -168,6 +171,6 @@ public class PhotosDataSource {
     public interface PhotoDataListener {
         void onPhotosLoaded(int newCount, int totalCount);
 
-        void onFailure();
+        void onPhotoLoadFailure();
     }
 }

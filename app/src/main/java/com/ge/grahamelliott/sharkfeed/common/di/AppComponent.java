@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
+ * DI component for injecting dependencies.
+ *
  * @author graham.elliott
  */
 @Singleton

@@ -8,6 +8,8 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
+ * DI module for providing app context.
+ *
  * @author graham.elliott
  */
 @Module

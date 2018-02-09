@@ -16,12 +16,11 @@
 
     <TextView
         android:id="@+id/txt_views"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:gravity="end"
-        android:text="15"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/photo_detail_views_margin"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,27 +30,14 @@
 
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/translucent_black"
         android:textColor="@color/white"
         android:gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/photo_detail_title_bottom_margin"
         app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintBottom_toTopOf="@+id/txt_description"
+        app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="1"/>
-
-    <TextView
-        android:id="@+id/txt_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/translucent_black"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintVertical_bias="1"/>
@@ -61,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_download"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/photo_detail_button_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -74,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_open_in_browser"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/photo_detail_button_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

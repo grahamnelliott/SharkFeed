@@ -9,8 +9,6 @@ public interface PhotoDetailView {
 
     void loadImageFromUri(Uri thumbnailUri, Uri fullSizeUri);
 
-    void setTitleText(String title);
-
     void saveImageFromUri(Uri uri);
 
     void showImageSavedToast();
@@ -19,7 +17,7 @@ public interface PhotoDetailView {
 
     void showPhotoDetailLoadFailureToast();
 
-    void updateImageAttributes(String title, String description, String views);
+    void updateImageAttributes(String title, String views);
 
     void launchWebpage(Uri uri);
 }

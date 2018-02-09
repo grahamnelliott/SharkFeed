@@ -1,6 +1,8 @@
 package com.ge.grahamelliott.sharkfeed.common.network;
 
 /**
+ * Network constant values.
+ *
  * @author graham.elliott
  */
 public final class FlickrApiConstants {
